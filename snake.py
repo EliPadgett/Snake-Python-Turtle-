@@ -18,7 +18,7 @@ def playing_area():
     pen.end_fill()
     
 class Head(Turtle):
-  def __init__(self, screen, body):
+  def __init__(self, screen):
     super().__init__()
     pass
 
@@ -35,10 +35,16 @@ class Head(Turtle):
     pass
 
   def move(self):
-    pass
+    self.forward(5)
+    if self.xcor() > 230 or self.xcor() < -230:
+      self.die()
+    if self.ycor() > 230 or self.ycor() < -230:
+      self.die()
+
     
   def die(self):
-    pass
+      self.ht()
+      self.alive = False
 
 
 class Segment(Turtle):
@@ -55,7 +61,16 @@ class Apple(Turtle):
     pass
 
   def relocate(self):
-    pass
+    self.goto(random.randint(-230,230),random.randint(-230,230))
+
+def update():
+  if head.alive:
+    head.move()
+
+    if head.distance(apple) < 20:
+      apple.relocate()
+
+  screen.ontimer(update, 30)
 
 screen = Screen()
 screen.bgcolor("black")
@@ -64,7 +79,8 @@ screen.setup(520,520)
 screen.listen()
 
 body = []
-
+head = Head(screen, body)
+apple = Apple()
 
 screen.exitonclick()
 
